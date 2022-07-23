@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
+const ErrorResponse = require("../utils/errorResponse");
 
 // Protect routes
 exports.protect = asyncHandler(async (req, res, next) => {
@@ -21,7 +22,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 
   // Make sure token exists
   if (!token) {
-    return next(new Error(`Token is not provided`));
+    return next(new ErrorResponse("Token is not provided", 401));
   }
 
   try {
@@ -33,6 +34,6 @@ exports.protect = asyncHandler(async (req, res, next) => {
 
     next();
   } catch (err) {
-    return next(new Error("Not authorized to access this route"));
+    return next(new ErrorResponse("Not authorized to access this route", 401));
   }
 });

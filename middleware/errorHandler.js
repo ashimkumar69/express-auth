@@ -3,10 +3,10 @@ const errorHandler = (err, req, res, next) => {
     return next(err);
   }
 
-  res.status(err.status || 500);
+  res.status(err.statusCode || 500);
   res.json({
-    message: err.message,
-    error: err,
+    message: err.message || "Server Error",
+    stack: err.stack,
   });
 };
 
